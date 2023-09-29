@@ -1,0 +1,23 @@
+[
+EGF binds EGFR <--> Ra
+Ra dimerizes <--> R2
+R2 is phosphorylated --> RP
+PLCγ binds RP <--> R-PL
+RP phosphorylates PLCγ --> R-PLP
+R-PLP dissociates to RP and PLCγP
+Grb2 binds RP <--> R-G
+SOS binds R-G <--> R-G-S
+R-G-S dissociates to RP and G-S
+Shc binds RP <--> R-SH
+RP phosphorylates Shc --> R-ShP
+R-ShP dissociates to RP and ShP
+Grb2 binds ShP <--> Sh-G
+SOS binds Sh-G <--> Sh-G-S
+Sh-G-S dissociates to ShP and G-S
+R-ShP binds G-S <--> R-Sh-G-S
+R-Sh-G-S dissociates to RP and Sh-G-S
+PLCγP is translocated to cytoskeletal or membrane structures <--> PLCγP-I
+RP is dephosphorylated --> R2
+PLCγP is dephosphorylated --> PLCγ
+ShP is dephosphorylated --> Shc
+]

@@ -1,0 +1,46 @@
+Given the current state of a list and a prompt, extrapolate as many reactions of molecules as possible from the prompt and update the list. Every line in the list contains gene names which act as the reactants and type of reaction of the left and products on the right, connected with different types of arrows depending on the reversibility of the reaction.
+
+
+Examples:
+current state:
+[
+A binds B <--> AB
+AB phosphorylates C --> pC
+pC is dephosphorylated --> C
+]
+
+prompt: The phosphorylated protein C exhibits kinase activity and phosphorylates its substrate D. Transcription factor D is then translocated into the nucleaus to transcribe E and F. After E and F are translated into G and H, respectively, they form a complex (denoted GH) and acquires phosphatase activity. GH dephosphorylates D, which completes a negative feedback loop. We also include the dissociation reaction of GH, which yields free G and H. It is assumed C and D are dephosphorylated at a certain rate.
+
+new state:
+[
+A binds B <--> AB
+AB phosphorylates C --> pC
+pC phosphorylates D --> pD
+pD is translocated to nucleus <--> pDn
+pDn transcribes E and F
+E is translated into protein G --> G
+F is translated into protein H --> H
+G binds H <--> GH
+GH dephosphorylates pD --> D
+GH dissociates to G and H
+pC is dephosphorylated --> C
+pD is dephosphorylated --> D
+]
+
+current state:
+[
+EGF binds EGFR <--> Ra
+Ra dimerizes <--> R2
+R2 is phosphorylated --> RP
+RP is dephosphorylated --> R2
+]
+
+prompt: In step 1, EGF binds to the extracellular domain of the monomeric EGFR (designated as R in the kinetic scheme) and forms the EGF·EGFR complex (designated as Ra). EGF binding drives the association of two receptor monomers into an activated receptor dimer (step 2). Recent studies (26, 27) have shown that a 2:2 (EGF:EGFR) complex is the predominant form of the receptor dimer (designated as R2). The phosphorylation of tyrosine residues by receptor tyrosine kinase is combined into a single step 3, yielding a form designated as RP. Although multiple tyrosine residues on the cytoplasmic tail of the receptor are targets for autophosphorylation, we did not attempt to distinguish experimentally between different phosphorylated forms of the receptor, and, as we will discuss below, the initial computational analysis also does not require a functional distinction to be made. Step 4 is the dephosphorylation of RP, catalyzed by one or more phosphotyrosine phosphatase(s) (28, 29).
+Tyrosine phosphorylation triggers the binding of cytoplasmic proteins to the receptor. We consider here three proteins that directly interact with phosphotyrosine residues on the receptor, namely Grb2, Shc, and PLCγ (4). Although several other proteins bind to the activated EGFR, it is helpful to consider a limited number of target proteins as an initial core model. It is not entirely clear whether these multiple proteins can bind simultaneously to their target phosphotyrosine residues on the same receptor molecule or whether the binding of, for example, Grb2 to the receptor hampers the binding of PLCγ (competitive binding). The model depicted in Fig. 1 considers the binding of cytoplasmic proteins to occur by a competitive mechanism. The advantage of a model with competitive binding is that it allows us to consider receptor phosphorylation as a single step rather than monitoring different phosphorylated forms of R2 as distinct entities. We also assume that, when Grb2, Shc, or PLCγ are bound to EGFR, the corresponding phosphotyrosine residues are not available to receptor phosphotyrosine phosphatases. The implications of these assumptions for the dynamic pattern of EGFR signaling will be considered below. Which mechanism of interactions of EGFR and adapter proteins occurs in vivo remains to be identified.
+The entire network of reactions of the receptor with its cytoplasmic target proteins can now be divided into three coupled cycles of interactions with Grb2, PLCγ, and Shc, respectively. One receptor cycle includes the binding of PLCγ (step 5 in Fig. 1, resulting in the formation of the complex designated as R-PL) and phosphorylation of PLCγ at two tyrosine residues by receptor tyrosine kinase (step 6, yielding the complex R-PLP). The partial cycle of the receptor is completed by the dissociation of R-PLP into phosphorylated phospholipase Cγ (PLCγP) and RP in step 7. Tyrosine phosphorylation of PLCγ is thought to be necessary for its activation and the subsequent formation of inositol 1,4,5-trisphosphate and generation of a Ca2+ response (30, 31). PLCγP can translocate to cytoskeletal or membrane structures (step 25), which yields bound PLCγP-I (32, 33).
+Another partial receptor cycle starts with the binding of Grb2 to a receptor phosphotyrosine (step 9, forming the complex R-G). The complex of the EGF receptor with the adapter protein Grb2 is a branch point that leads to several signaling pathways through binding to different potential targets. Here we consider the link of EGFR to the Ras signaling pathway. The SH3 domains of Grb2 bind to proline-rich regions of the Ras-specific GDP-GTP exchange factor SOS. In step 10, SOS binds to the receptor-bound Grb2, resulting in the formation of the ternary complex R-G-S. The binding of SOS to the EGFR-Grb2 complex localizes SOS in the vicinity of Ras, which is anchored to the cell membrane. The ternary complex R-G-S dissociates (step 11), yielding the phosphorylated receptor (RP) and the complex G-S, which further dissociates into Grb2 and SOS (step 12).
+The final EGFR cycle considered here includes the formation of the complex of Shc with EGFR (R-SH) (step 13 in Fig. 1) and its subsequent phosphorylation at Tyr317 by receptor tyrosine kinase (step 14, yielding R-ShP). This allows Grb2 to also bind to EGFR indirectly through phosphorylated Shc, forming a ternary complex (R-Sh-G) (step 17). There are three embedded EGFR cycles that involve Shc protein. The shortest of these cycles is completed in step 15, where the complex R-ShP dissociates, yielding the phosphorylated receptor (RP) and phosphorylated Shc (ShP). The second cycle is completed in step 18, where the ternary complex R-Sh-G dissociates into RP and the complex Sh-G. The longest of the three embedded cycles includes SOS binding to R-Sh-G, leading to the formation of a four-protein complex, R-Sh-G-S (step 19). The complex R-Sh-G-S can also be formed by association of R-ShP and G-S complexes in step 24. The third cycle is completed in step 20, where the complex R-Sh-G-S dissociates, releasing the phosphorylated receptor (RP) and the complex Sh-G-S.
+It is unknown whether the binding of the phosphorylated target proteins to EGFR protects them against specific phosphatases. The kinetic scheme of Fig. 1 assumes that PLCγP and ShP are dephosphorylated only after they dissociate from the receptor (steps 16 and 8). However, this assumption is not critical, provided the dephosphorylation of bound target proteins proceeds no faster than that of their unbound phosphorylated forms.
+After phosphorylated Shc dissociates from the receptor (ShP), it retains its ability to bind various SH2 domain-containing targets. The remaining steps in Fig. 1 constitute the cycle of ShP. The scheme shows that Grb2 binds to ShP, forming the complex Sh-G (step 21). The GDP-GTP exchange factor SOS is able to bind to Grb2 complexed with phosphorylated Shc, forming the ternary complex Sh-G-S (step 22). The dissociation of the complex Sh-G-S yields G-S and ShP (step 23).
+
+new state:

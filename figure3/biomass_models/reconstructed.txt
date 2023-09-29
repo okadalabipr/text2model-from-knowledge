@@ -1,0 +1,44 @@
+EGF binds EGFR <--> Ra | kf=0.003, kr=0.06 | EGFR=100
+Ra dimerizes <--> R2 | kf=0.01, kr=0.1
+R2 is phosphorylated --> RP | kf=1, kr=0.01
+RP is dephosphorylated --> R2 | V=450, K=50
+PLCg binds RP <--> RPL | kf=0.06, kr=0.2 | PLCg=105
+RP phosphorylates PLCg --> RPLP | V=1, K=100  #
+RPLP dissociates to RP and PLCgP | kf=0.3, kr=0.006
+PLCgP is dephosphorylated --> PLCg | V=1, K=100
+Grb2 binds RP <--> RG | kf=0.003, kr=0.05 | Grb2=85
+SOS binds RG <--> RGS | kf=0.01, kr=0.06 | SOS=34
+RGS dissociates to RP and GS | kf=0.03, kr=4.5e-3
+# GS dissociates to Grb2 and SOS | kf=1.5e-3, kr=1e-4
+Shc binds RP <--> RSH | kf=0.09, kr=0.6 | Shc=150
+RP phosphorylates Shc --> RShP | V=1, K=100  #
+RShP dissociates to RP and ShP | kf=0.3, kr=9e-4
+ShP is dephosphorylated --> Shc | V=1.7, K=340
+# RShP binds Grb2 <--> RShG | kf=0.003, kr=0.1
+# RShG dissociates to RP and ShG | kf=0.3, kr=9e-4
+# RShG binds SOS <--> RShGS | kf=0.003, kr=2.14e-2
+RShGS dissociates to RP and ShGS | kf=0.12, kr=2.4e-4
+Grb2 binds ShP <--> ShG | kf=0.003, kr=0.1
+SOS binds ShG <--> ShGS | kf=0.03, kr=0.064
+ShGS dissociates to ShP and GS | kf=0.1, kr=0.021
+RShP binds GS <--> RShGS | kf=0.009, kr=4.29e-2
+PLCgP is translocated to cytoskeletal or membrane structures <--> PLCgP_I | kf=1, kr=0.03
+
+# manually added lines
+GS is dissociated into Grb2 and SOS | kf=1.5e-3, kr=1e-4
+
+# observable layer
+@obs Total_phosphorylated_Shc: (u[RShP] + u[RShGS] + u[ShP] + u[ShG] + u[ShGS]) / (u[RShP] + u[RShGS] + u[ShP] + u[ShG] + u[ShGS] + u[Shc] + u[RSH])
+@obs Total_Grb2_coprecipitated_with_Shc: (u[ShG] + u[RShGS] + u[ShGS]) / (u[ShG] + u[RShGS] + u[ShGS] + u[Grb2] + u[RG] + u[RGS] + u[GS])
+# @obs Total_phosphorylated_Shc_bound_to_EGFR: u[RShP] + u[RShGS]
+@obs Total_Grb2_bound_to_EGFR: (u[RG] + u[RGS] + u[RShGS]) / (u[ShG] + u[RShGS] + u[ShGS] + u[Grb2] + u[RG] + u[RGS] + u[GS])
+# @obs Total_SOS_bound_to_EGFR: u[RGS] + u[RShGS]
+# @obs ShGS_complex: u[ShGS]
+@obs Total_phosphorylated_PLCg: (u[RPLP] + u[PLCgP]) / (u[RPLP] + u[PLCgP] + u[PLCg] + u[RPL] + u[PLCgP_I])
+@obs Total_phosphorylated_EGFR: 2 * (u[RP] + u[RPL] + u[RPLP] + u[RG] + u[RGS] + u[RSH] + u[RShP] + u[RShGS]) / (u[EGFR] + u[Ra] + 2 * (u[R2] + u[RP] + u[RPL] + u[RPLP] + u[RG] + u[RGS] + u[RSH] + u[RShP] + u[RShGS]))
+
+# simulation layer
+@sim tspan: [0, 120]
+@sim condition EGF20nM: init[EGF] = 680
+@sim condition EGF2nM: init[EGF] = 68
+# @sim condition Absence_PLCgP_transloc: init[EGF] = 680; p[kf25] = 0; p[kr25] = 0

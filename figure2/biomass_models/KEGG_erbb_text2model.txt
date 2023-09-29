@@ -1,0 +1,124 @@
+TGFA activates EGFR_EGFR --> a_EGFR_EGFR |V=0, const K=1| fixed TGFA=0, EGFR_EGFR=1
+a_EGFR_EGFR is deactivated --> EGFR_EGFR |V=0.1, K=10|
+NRG3 activates ERBB4_ERBB4 --> a_ERBB4_ERBB4 |1| fixed NRG3=0, ERBB4_ERBB4=1
+a_ERBB4_ERBB4 is deactivated --> ERBB4_ERBB4 |V=0.5, K=10|
+NRG3 activates ERBB4_ERBB2 --> a_ERBB4_ERBB2 |1|
+a_ERBB4_ERBB2 is deactivated --> ERBB4_ERBB2 |V=0.5, K=10|
+NRG2 activates ERBB3_ERBB3 --> a_ERBB3_ERBB3 |1| fixed NRG2=0, ERBB3_ERBB3=1
+a_ERBB3_ERBB3 is deactivated --> ERBB3_ERBB3 |V=0.5, K=10|
+NRG2 activates ERBB4_ERBB4 --> a_ERBB4_ERBB4 |1|
+NRG2 activates ERBB3_ERBB2 --> a_ERBB3_ERBB2 |1|
+a_ERBB3_ERBB2 is deactivated --> ERBB3_ERBB2 |V=0.5, K=10|
+NRG2 activates ERBB4_ERBB2 --> a_ERBB4_ERBB2 |1|
+HBEGF activates EGFR_EGFR --> a_EGFR_EGFR |1| fixed HBEGF=0
+HBEGF activates ERBB4_ERBB4 --> a_ERBB4_ERBB4 |1|
+HBEGF activates ERBB4_ERBB2 --> a_ERBB4_ERBB2 |1|
+NRG1 activates ERBB3_ERBB3 --> a_ERBB3_ERBB3 |V=0.1, K=10|
+NRG1 activates ERBB4_ERBB4 --> a_ERBB4_ERBB4 |V=0.1, K=10|
+NRG1 activates ERBB3_ERBB2 --> a_ERBB3_ERBB2 |V=0.1, K=10|
+NRG1 activates ERBB4_ERBB2 --> a_ERBB4_ERBB2 |V=0.1, K=10|
+EREG activates EGFR_EGFR --> a_EGFR_EGFR |1|
+EREG activates ERBB4_ERBB4 --> a_ERBB4_ERBB4 |1|
+EREG activates ERBB4_ERBB2 --> a_ERBB4_ERBB2 |1|
+BTC activates EGFR_EGFR --> a_EGFR_EGFR |1|
+BTC activates ERBB4_ERBB4 --> a_ERBB4_ERBB4 |1|
+BTC activates ERBB4_ERBB2 --> a_ERBB4_ERBB2 |1|
+NRG4 activates ERBB4_ERBB4 --> a_ERBB4_ERBB4 |1|
+NRG4 activates ERBB4_ERBB2 --> a_ERBB4_ERBB2 |1|
+AREG activates EGFR_EGFR --> a_EGFR_EGFR |1|
+EGF activates EGFR_EGFR --> a_EGFR_EGFR |V=0.1, K=10| fixed EGF=1
+ERBB2_ERBB2 phosphorylates SHC2_SHC4_SHC3_SHC1 --> a_SHC2_SHC4_SHC3_SHC1 |V=0.1, K=10| SHC2_SHC4_SHC3_SHC1=1
+a_SHC2_SHC4_SHC3_SHC1 is dephosphorylated --> SHC2_SHC4_SHC3_SHC1 |V=0.1, K=10|
+ERBB2_ERBB2 activates GRB2 --> a_GRB2 |V=0.1, K=10|
+a_GRB2 is deactivated --> GRB2 |V=0.1, K=10|
+a_EGFR_EGFR phosphorylates PLCG1_PLCG2 --> a_PLCG1_PLCG2 |1| PLCG1_PLCG2=1
+a_PLCG1_PLCG2 is dephosphorylated --> PLCG1_PLCG2 |2|
+a_EGFR_EGFR phosphorylates CBL_CBLB --> a_CBL_CBLB |1| CBL_CBLB=1
+a_CBL_CBLB is dephosphorylated --> CBL_CBLB |2|
+a_EGFR_EGFR phosphorylates STAT5A_STAT5B --> a_STAT5A_STAT5B |1| STAT5A_STAT5B=1
+a_STAT5A_STAT5B is dephosphorylated --> STAT5A_STAT5B |2|
+a_EGFR_EGFR phosphorylates CRK_CRKL --> a_CRK_CRKL |1| CRK_CRKL=1
+a_CRK_CRKL is dephosphorylated --> CRK_CRKL |2|
+a_EGFR_EGFR activates SRC --> a_SRC |1| SRC=1
+a_SRC is deactivated --> SRC |2|
+a_EGFR_EGFR activates NCK1_NCK2 --> a_NCK1_NCK2 |1| NCK1_NCK2=1
+a_NCK1_NCK2 is deactivated --> NCK1_NCK2 |2|
+a_EGFR_EGFR activates GRB2 --> a_GRB2 |V=0.1, K=10|
+a_EGFR_EGFR phosphorylates SHC2_SHC4_SHC3_SHC1 --> a_SHC2_SHC4_SHC3_SHC1 |V=0.1, K=10|
+a_ERBB4_ERBB4 phosphorylates SHC2_SHC4_SHC3_SHC1 --> a_SHC2_SHC4_SHC3_SHC1 |V=0.1, K=10|
+a_ERBB4_ERBB4 activates GRB2 --> a_GRB2 |V=0.1, K=10|
+a_ERBB4_ERBB4 activates PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 --> a_PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 |V=0.1, K=10| PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3=1
+a_PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 is deactivated --> PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 |V=0.1, K=10|
+a_ERBB4_ERBB4 phosphorylates STAT5A_STAT5B --> a_STAT5A_STAT5B |1|
+a_ERBB4_ERBB2 phosphorylates SHC2_SHC4_SHC3_SHC1 --> a_SHC2_SHC4_SHC3_SHC1 |V=0.1, K=10|
+a_ERBB4_ERBB2 activates GRB2 --> a_GRB2 |V=0.1, K=10|
+a_ERBB4_ERBB2 activates PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 --> a_PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 |V=0.1, K=10|
+a_ERBB4_ERBB2 phosphorylates STAT5A_STAT5B --> a_STAT5A_STAT5B |1|
+a_ERBB3_ERBB3 activates PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 --> a_PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 |V=0.1, K=10|
+a_ERBB3_ERBB2 phosphorylates SHC2_SHC4_SHC3_SHC1 --> a_SHC2_SHC4_SHC3_SHC1 |V=0.1, K=10|
+a_ERBB3_ERBB2 activates GRB2 --> a_GRB2 |V=0.1, K=10|
+a_ERBB3_ERBB2 activates PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 --> a_PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 |V=0.1, K=10|
+a_SHC2_SHC4_SHC3_SHC1 activates GRB2 --> a_GRB2 |V=0.1, K=10|
+a_PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 activates AKT3_AKT1_AKT2 --> a_AKT3_AKT1_AKT2 |V=0.5, K=10| AKT3_AKT1_AKT2=1
+a_AKT3_AKT1_AKT2 is deactivated --> AKT3_AKT1_AKT2 |V=0.5, K=10|
+a_GRB2 activates SOS1_SOS2 --> a_SOS1_SOS2 |V=0.1, K=10| SOS1_SOS2=1
+a_SOS1_SOS2 is deactivated --> SOS1_SOS2 |V=0.1, K=10|
+a_GRB2 activates GAB1 --> a_GAB1 |V=0.1, K=10| GAB1=1
+a_GAB1 is deactivated --> GAB1 |V=0.1, K=10|
+a_PLCG1_PLCG2 activates CAMK2A_CAMK2B_CAMK2D_CAMK2G --> a_CAMK2A_CAMK2B_CAMK2D_CAMK2G |1| CAMK2A_CAMK2B_CAMK2D_CAMK2G=1
+a_CAMK2A_CAMK2B_CAMK2D_CAMK2G is deactivated --> CAMK2A_CAMK2B_CAMK2D_CAMK2G |2|
+a_PLCG1_PLCG2 activates PRKCA_PRKCB_PRKCG --> a_PRKCA_PRKCB_PRKCG |1| PRKCA_PRKCB_PRKCG=1
+a_PRKCA_PRKCB_PRKCG is deactivated --> PRKCA_PRKCB_PRKCG |2|
+a_GAB1 activates PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 --> a_PIK3CA_PIK3CB_PIK3CD_PIK3R1_PIK3R2_PIK3R3 |V=0.1, K=10|
+a_AKT3_AKT1_AKT2 phosphorylates MTOR --> a_MTOR |1| MTOR=1
+a_MTOR is dephosphorylated --> MTOR |2|
+a_AKT3_AKT1_AKT2 phosphorylates BAD --> a_BAD |1| BAD=1
+a_BAD is dephosphorylated --> BAD |2|
+a_AKT3_AKT1_AKT2 phosphorylates GSK3B --> a_GSK3B |1| GSK3B=1
+a_GSK3B is dephosphorylated --> GSK3B |2|
+a_AKT3_AKT1_AKT2 phosphorylates CDKN1B --> a_CDKN1B |1| CDKN1B=1
+a_CDKN1B is dephosphorylated --> CDKN1B |2|
+a_AKT3_AKT1_AKT2 phosphorylates CDKN1A --> a_CDKN1A |1| CDKN1A=1
+a_CDKN1A is dephosphorylated --> CDKN1A |2|
+a_NCK1_NCK2 activates PAK4_BUB1B_PAK6_PAK1_PAK2_PAK3_PAK6_PAK5 --> a_PAK4_BUB1B_PAK6_PAK1_PAK2_PAK3_PAK6_PAK5 |1| PAK4_BUB1B_PAK6_PAK1_PAK2_PAK3_PAK6_PAK5=1
+a_PAK4_BUB1B_PAK6_PAK1_PAK2_PAK3_PAK6_PAK5 is deactivated --> PAK4_BUB1B_PAK6_PAK1_PAK2_PAK3_PAK6_PAK5 |2|
+a_SOS1_SOS2 activates HRAS_KRAS_NRAS --> a_HRAS_KRAS_NRAS |V=0.1, K=10| HRAS_KRAS_NRAS=1
+a_HRAS_KRAS_NRAS is deactivated --> HRAS_KRAS_NRAS |V=0.1, K=10|
+a_CRK_CRKL activates ABL1_ABL2 --> a_ABL1_ABL2 |1| ABL1_ABL2=1
+a_ABL1_ABL2 is deactivated --> ABL1_ABL2 |2|
+a_SRC phosphorylates PTK2 --> a_PTK2 |1|
+a_PTK2 is dephosphorylated --> PTK2 |2|
+a_HRAS_KRAS_NRAS activates ARAF_RAF1_BRAF --> a_ARAF_RAF1_BRAF |V=0.5, K=10| ARAF_RAF1_BRAF=1
+a_ARAF_RAF1_BRAF is deactivated --> ARAF_RAF1_BRAF |V=0.5, K=10|
+a_MTOR phosphorylates RPS6KB1_RPS6KB2 --> a_RPS6KB1_RPS6KB2 |1| RPS6KB1_RPS6KB2=1
+a_RPS6KB1_RPS6KB2 is dephosphorylated --> RPS6KB1_RPS6KB2 |2|
+a_MTOR phosphorylates EIF4EBP1 --> a_EIF4EBP1 |1| EIF4EBP1=1
+a_EIF4EBP1 is dephosphorylated --> EIF4EBP1 |2|
+a_PAK4_BUB1B_PAK6_PAK1_PAK2_PAK3_PAK6_PAK5 activates MAP2K7_MAP2K4 --> a_MAP2K7_MAP2K4 |1| MAP2K7_MAP2K4=1
+a_MAP2K7_MAP2K4 is deactivated --> MAP2K7_MAP2K4 |2|
+a_ARAF_RAF1_BRAF phosphorylates MAP2K1_MAP2K2 --> a_MAP2K1_MAP2K2 |V=0.1, K=10| MAP2K1_MAP2K2=1
+a_MAP2K1_MAP2K2 is dephosphorylated --> MAP2K1_MAP2K2 |V=0.1, K=10|
+a_MAP2K7_MAP2K4 phosphorylates MAPK8_MAPK9_MAPK10 --> a_MAPK8_MAPK9_MAPK10 |1| MAPK8_MAPK9_MAPK10=1
+a_MAPK8_MAPK9_MAPK10 is dephosphorylated --> MAPK8_MAPK9_MAPK10 |2|
+a_MAP2K1_MAP2K2 phosphorylates MAPK1_MAPK3 --> a_MAPK1_MAPK3 |V=0.1, K=10|
+a_MAPK1_MAPK3 is dephosphorylated --> MAPK1_MAPK3 |V=0.1, K=10|
+a_MAPK8_MAPK9_MAPK10 phosphorylates JUN --> a_JUN |1| JUN=1
+a_JUN is dephosphorylated --> JUN |2|
+a_MAPK8_MAPK9_MAPK10 phosphorylates ELK1 --> a_ELK1 |1| ELK1=1
+a_ELK1 is dephosphorylated --> ELK1 |2|
+a_MAPK1_MAPK3 phosphorylates MYC --> a_MYC |V=0.1, K=10| MYC=1
+a_MYC is dephosphorylated --> MYC |V=0.1, K=10|
+a_MAPK1_MAPK3 phosphorylates ELK1 --> a_ELK1 |1|
+a_EGFR_EGFR is degraded |kf=0.01|
+a_AKT3_AKT1_AKT2 is degraded |kf=0.01|
+a_MAPK1_MAPK3 is degraded |kf=0.01|
+a_MYC is degraded |kf=0.01|
+
+@obs Phosphorylated_SHC: u[a_SHC2_SHC4_SHC3_SHC1]
+@obs Phosphorylated_AKT: u[a_AKT3_AKT1_AKT2]
+@obs Phosphorylated_ERK: u[a_MAPK1_MAPK3]
+@obs Phosphorylated_MYC: u[a_MYC]
+
+@sim tspan: [0, 120]
+@sim condition EGF: init[EGF] = 10.0; init[NRG1] = 0.0
+@sim condition HRG: init[EGF] = 0.0; init[NRG1] = 10.0
