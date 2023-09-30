@@ -5,7 +5,8 @@ from biomass.estimation import InitialPopulation
 original = create_model("biomass_models/original")
 reconst = create_model("biomass_models/reconstructed")
 
-# optimize parameters for each model
+# optimize parameters for each model; this may take several hours~couple of days
+print("Optimizing parameters for the original model...")
 for x_id in range(1, 11):
     initpop = InitialPopulation(original, popsize=15).generate(n_proc=8, progress=False)
     optimize(
@@ -20,6 +21,7 @@ for x_id in range(1, 11):
         },
     )
 
+print("Optimizing parameters for the reconstructed model...")
 for x_id in range(1, 11):
     initpop = InitialPopulation(reconst, popsize=15).generate(n_proc=8, progress=False)
     optimize(
