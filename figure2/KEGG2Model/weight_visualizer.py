@@ -47,6 +47,7 @@ class weightVis:
         remove_lonely: bool = True,
         directed: bool = True,
         layout: bool = True,
+        show: bool = False,
         **kwargs,
     ):
         nt = Network("1024px", "1024px", directed=directed, layout=layout, **kwargs)
@@ -89,7 +90,10 @@ class weightVis:
                     self.down_color if edge["weight"] <= 1 else self.up_color
                 )
         # nt.show_buttons(filter_=["physics", "nodes"])
-        nt.show(file_name)
+        if show:
+            nt.show(file_name)
+        else:
+            nt.save_graph(file_name)
 
     def hex2rgb(self, hex: str):
         h = hex.lstrip("#")

@@ -3,6 +3,7 @@ This is a sample code exported from OpenAI's API Playground. \
 Original results were not obtained through the official API \
 but through the Playground (on 2023-03-31). Kept for documentation/reference.
 """
+import os
 import openai
 import json
 
@@ -141,6 +142,9 @@ response = openai.Completion.create(
     frequency_penalty=0,
     presence_penalty=0,
 )
+
+if not os.path.exists("out"):
+    os.makedirs("out")
 
 # dump response to json
 with open("out/response.json", "w") as f:
