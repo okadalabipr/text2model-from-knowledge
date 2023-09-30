@@ -1,6 +1,9 @@
 from ftplib import FTP
 import os
 
+if not os.path.exists("data"):
+    os.makedirs("data")
+
 # download data from PubTator Central ftp server
 url = "ftp.ncbi.nlm.nih.gov"
 path = "/pub/lu/PubTatorCentral/PubTatorCentral_BioCXML/"

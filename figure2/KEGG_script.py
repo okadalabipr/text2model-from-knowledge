@@ -2,7 +2,7 @@ import os
 import urllib.request
 
 from KEGG2Model.convert_network import to_text2model
-from KEGG2Model.coocurrence_analysis import CoocAnalyzer
+from figure2.KEGG2Model.cooccurrence_analysis import CoocAnalyzer
 from KEGG2Model.KGML_parser import KEGGpathway
 from KEGG2Model.weight_visualizer import weightVis
 

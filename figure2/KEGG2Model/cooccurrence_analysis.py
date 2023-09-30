@@ -25,20 +25,9 @@ class CoocAnalyzer:
                 self.pubtator_data = json.load(f)
 
     def _dummy(self, tokens: List[str]) -> List[str]:
-        """Dummy function for the sklearn CountVectorizer. \
-            Returns the input as is.
-        """
         return tokens
 
     def calculate_cooc(self, set_diag_0: bool = True) -> None:
-        """Calculates the co-occurrence matrix using sklearn's CountVectorizer, \
-            and subsequently calculates the co-occurrence network.
-
-        Args:
-            tfidf (bool, optional): Calculates the tfidf when True. Defaults to False.
-            set_diag_0 (bool, optional): Sets the diagonal components to 0 when True. \
-                Defaults to True.
-        """
         self.cv = CountVectorizer(preprocessor=self._dummy, tokenizer=self._dummy)
         self.word_count = self.cv.fit_transform(
             [

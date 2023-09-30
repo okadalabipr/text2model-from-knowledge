@@ -9,7 +9,7 @@ import networkx as nx
 import numpy as np
 from pyvis.network import Network
 
-from .coocurrence_analysis import CoocAnalyzer, _gilda_ground
+from .cooccurrence_analysis import CoocAnalyzer, _gilda_ground
 
 
 class KEGGpathway:

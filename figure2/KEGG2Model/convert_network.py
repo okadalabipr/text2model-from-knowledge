@@ -11,13 +11,10 @@ def to_text2model(pathway: KEGGpathway) -> Tuple[nx.DiGraph, str]:
     output.remove_nodes_from(list(nx.isolates(output)))  # remove lonely nodes
     network = output.copy()
     remove_edges = set()
-    postprocess = []
-    # topo_sorted = list(nx.topological_sort(network))
     for (source, target), edge_dict in network.edges.items():
         if edge_dict["relation"] == "GErel":
             # do nothing
             pass
-        # elif edge_dict["relation"] == "PPrel":
         else:
             if edge_dict["type"] == "ubiquitination":
                 new_node = "u_" + target
@@ -46,7 +43,7 @@ def to_text2model(pathway: KEGGpathway) -> Tuple[nx.DiGraph, str]:
                         remove_edges.add((target, child))
                 continue
             elif edge_dict["type"] == "dissociation":
-                # postprocess.append((source, target))
+                # ignore for now
                 pass
             else:
                 new_node = "a_" + target
@@ -59,33 +56,6 @@ def to_text2model(pathway: KEGGpathway) -> Tuple[nx.DiGraph, str]:
                         output.add_edge(new_node, child, **network[target][child])
                         remove_edges.add((target, child))
     output.remove_edges_from(remove_edges)
-    cp_network = output.copy()
-    for source, target in postprocess:
-        edge_dict = network[source][target]
-        remove_edges = set()
-        if edge_dict["type"] == "dissociation":
-            # add "pre-dissociation" nodes
-            new_nodes = [source] + [child for child in cp_network[source]]
-            output = nx.relabel_nodes(
-                output, {node: node + "_" + target for node in new_nodes}
-            )
-            for parent, _ in output.in_edges(source + "_" + target):
-                edge_dict = output[parent][source + "_" + target]
-                if (edge_dict["type"] != "transition") and (
-                    edge_dict["relation"] == "GErel"
-                ):
-                    output.add_node(source, **cp_network.nodes[source])
-                    output.add_edge(parent, source, **edge_dict)
-                    remove_edges.add((parent, source + "+_" + target))
-            output.remove_edges_from(remove_edges)
-            # add a binding edge (reverse reaction for dissociation)
-            output.add_edge(source, target, type="bind")
-            output.add_edge(target, source + "_" + target, type="transition")
-            for parent in new_nodes[1:]:
-                level = output.nodes[parent + "_" + target]["level"] + 60 / 150
-                output.add_node(parent, type="intermediate", level=level)
-                output.add_edge(parent + "_" + target, parent, type="transition")
-    # output.remove_edges_from(remove_edges)
     reactions = _list_reactions(output)
     return output, reactions
 
@@ -108,23 +78,6 @@ def _reassign_group_edges(pathway: KEGGpathway, output: nx.DiGraph):
                 output.add_edge(group, target, **pathway.graph[comp][target])
                 remove_edges.add((comp, target))
     output.remove_edges_from(remove_edges)
-    # for source, target in list(pathway.graph.edges):
-    #     edge_dict = pathway.graph[source][target]
-    #     # if edge_dict["relation"] == "PPrel":
-    #     new_source = source
-    #     new_target = target
-    #     changed = False
-    #     if "_group" in pathway.graph.nodes[source]:
-    #         group = pathway.graph.nodes[source]["_group"]
-    #         new_source = pathway.entries[group][0]
-    #         changed = True
-    #     if "_group" in pathway.graph.nodes[target]:
-    #         group = pathway.graph.nodes[target]["_group"]
-    #         new_target = pathway.entries[group][0]
-    #         changed = True
-    #     if changed:
-    #         output.remove_edge(source, target)
-    #         output.add_edge(new_source, new_target, **edge_dict)
 
 
 def _list_reactions(network):
