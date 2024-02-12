@@ -109,16 +109,20 @@ a_ELK1 is dephosphorylated --> ELK1 |2|
 a_MAPK1_MAPK3 phosphorylates MYC --> a_MYC |V=0.1, K=10| MYC=1
 a_MYC is dephosphorylated --> MYC |V=0.1, K=10|
 a_MAPK1_MAPK3 phosphorylates ELK1 --> a_ELK1 |1|
+
+# manually added lines
 a_EGFR_EGFR is degraded |kf=0.01|
 a_AKT3_AKT1_AKT2 is degraded |kf=0.01|
 a_MAPK1_MAPK3 is degraded |kf=0.01|
 a_MYC is degraded |kf=0.01|
 
+# observable layer
 @obs Phosphorylated_SHC: u[a_SHC2_SHC4_SHC3_SHC1]
 @obs Phosphorylated_AKT: u[a_AKT3_AKT1_AKT2]
 @obs Phosphorylated_ERK: u[a_MAPK1_MAPK3]
 @obs Phosphorylated_MYC: u[a_MYC]
 
+# simulation layer
 @sim tspan: [0, 120]
 @sim condition EGF: init[EGF] = 10.0; init[NRG1] = 0.0
 @sim condition HRG: init[EGF] = 0.0; init[NRG1] = 10.0

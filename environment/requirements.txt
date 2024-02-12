@@ -4,6 +4,6 @@ gilda==0.10.3
 networkx==3.1
 pyvis==0.2.1
 
-# uncomment below if you want to prepare & process the PubTator data yourself
+# uncomment below if you want to prepare & process the PubTator data locally
 # spacy==3.2.4
 # en-core-sci-sm @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.0/en_core_sci_sm-0.5.0.tar.gz

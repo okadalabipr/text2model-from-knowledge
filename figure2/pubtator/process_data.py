@@ -203,7 +203,7 @@ if __name__ == "__main__":
 
     pubtator_data = []
     for pmid, entity in zip(pmids_all, entities_all):
-        if len(entity) >= 2:  # set minimum number of entities in a sentence
+        if len(entity) >= 2:  # set minimum number of annotated sentences in an article
             data_dict = {
                 "pmid": pmid,
                 # "title": title,
