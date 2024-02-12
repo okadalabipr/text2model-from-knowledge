@@ -98,7 +98,6 @@ class Observable(DifferentialEquation):
                 )
 
     def set_data(self):
-        """Data from iScience paper: MDA-MB-231"""
         self.experiments[self.obs_names.index("Phosphorylated_AKT")] = {
             "EGF": [0.0, 1.0, 0.409, 0.229, 0.057, 0.03, 0.005, 0.0],
             "HRG": [0.0, 0.017, 0.084, 0.03, 0.023, 0.038, 0.028, 0.024],
