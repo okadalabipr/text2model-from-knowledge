@@ -1,0 +1,14 @@
+[
+IL13 binds Rec <--> IL13_Rec
+IL13_Rec phosphorylates JAK2 --> pJAK2
+pJAK2 phosphorylates IL13_Rec
+pJAK2 phosphorylates STAT5 --> pSTAT5
+pSTAT5 transcribes CD274mRNA
+pSTAT5 transcribes SOCS3mRNA
+CD274mRNA is translated into protein CD274 --> CD274
+SOCS3mRNA is translated into protein SOCS3 --> SOCS3
+IL13 binds DecoyR <--> IL13_DecoyR
+SHP1 dephosphorylates pJAK2 --> JAK2
+SHP1 dephosphorylates pSTAT5 --> STAT5
+SOCS3 inhibits phosphorylation of JAK2
+]

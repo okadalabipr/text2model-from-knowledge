@@ -1,0 +1,34 @@
+IL13 binds Rec <--> IL13_Rec | kf=0.00342, const kr=0.0 | fixed IL13=0.0, Rec=1.3
+@rxn JAK2 --> pJAK2: p[V2] * u[JAK2] * u[IL13_Rec] / (1 + p[K2] * u[SOCS3]) + p[V2] * u[JAK2] * u[p_IL13_Rec] / (1 + p[K2] * u[SOCS3]) | V2=0.15706, K2=0.01683 | JAK2=2.8
+# The user-defined rate law above covers the following three reactions:
+# IL13_Rec phosphorylates JAK2 --> pJAK2
+# p_IL13_Rec phosphorylates JAK2 --> pJAK2
+# SOCS3 inhibits JAK2 phosphorylation
+pJAK2 phosphorylates IL13_Rec --> p_IL13_Rec | V=999.63100, K=1.0
+pJAK2 phosphorylates STAT5 --> pSTAT5 | V=0.03826e+4, K=1.0e+4 | STAT5=165
+pSTAT5 transcribes CD274mRNA | V=0.00008e+3, K=1.0e+3, const n=1.0
+pSTAT5 transcribes SOCS3mRNA | V=0.00216e+3, K=1.0e+3, const n=1.0
+SOCS3mRNA is translated into SOCS3 | kf=0.3
+Rec <--> Rec_i | kf=0.10335, kr=0.00136 | Rec_i=113.19400
+p_IL13_Rec -> p_IL13_Reci | kf=0.15254
+p_IL13_Reci is degraded | kf=0.17292
+IL13 binds DecoyR <--> IL13_DecoyR | kf=0.00012, const kr=0.0 | DecoyR=0.34
+SHP1 dephosphorylates pJAK2 --> JAK2 | V=0.00062e+2, K=1.0e+2| fixed SHP1=91
+SHP1 dephosphorylates pSTAT5 --> STAT5 | V=0.00034e+3, K=1.0e+3
+SOCS3 is degraded | kf=0.04292
+
+# observable layer
+@obs IL13_stimulation: u[IL13]
+@obs RacSurf: u[Rec] + u[IL13_Rec] + u[p_IL13_Rec]
+@obs IL13_cell: 5.56750 * (u[IL13_Rec] + u[p_IL13_Rec] + u[p_IL13_Reci] + u[IL13_DecoyR])
+@obs pIL4Ra: 1.88700 * (u[p_IL13_Rec] + u[p_IL13_Reci])
+@obs pJAK2: 1.39040 * u[pJAK2]
+@obs SOCS3mRNA: 17.66990 * u[SOCS3mRNA]
+@obs CD274mRNA: u[CD274mRNA]
+@obs SOCS3: u[SOCS3]
+@obs pSTAT5: u[pSTAT5]
+
+# simulation layer
+@sim tspan: [0, 120]
+@sim condition IL13_4: init[IL13] = 4.0
+@sim condition IL13_20: init[IL13] = 20.0
