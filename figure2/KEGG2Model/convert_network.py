@@ -105,12 +105,12 @@ def _list_reactions(network):
                 if new_reaction not in reactions:
                     reactions += new_reaction
             elif edge_dict["type"] == "dephosphorylation":
-                product = target.strip("*")
+                product = target.strip("a_")
                 reactions += f"{source} dephosphorylates {target} -> {product}\n"
             elif edge_dict["type"] == "ubiquitination":
                 product = "u_" + target
                 reactions += f"{source} ubiquitinates {target} -> {product}\n"
-                reactions += f"{product} is degraded"
+                reactions += f"{product} is degraded\n"
             elif edge_dict["type"] == "dissociation":
                 continue
             elif (edge_dict["effect"] == 1) or (
