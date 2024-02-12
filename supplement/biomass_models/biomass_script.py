@@ -1,5 +1,5 @@
 from biomass import create_model, optimize
-from modified_biomass import run_simulation
+from modified_biomass.biomass import run_simulation
 from biomass.estimation import InitialPopulation
 
 
