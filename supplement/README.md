@@ -21,11 +21,11 @@ The modifications are documented below.
 
 The modifications in this file were made in mehods `_plot_experimental_data_with_error_bars` (lines 345, 362) and `_plot_experimental_data_without_error_bars` (lines 397, 414), indicated with comments showing the changes made.
 
-### [`biomass_models/*/problem.py`](./biomass_modification/KEGG_JAK-STAT/problem.py)
+### [`biomass_models/*/problem.py`](./biomass_models/KEGG_JAK-STAT/problem.py)
 
 A single modification (in line 39) was made in the `problem.py` file for each model.
 
-### [`biomass_models/*/observable.py`](./biomass_modification/KEGG_JAK-STAT/observable.py)
+### [`biomass_models/*/observable.py`](./biomass_models/KEGG_JAK-STAT/observable.py)
 
 To allow for the varying time points for each experimental condition, the `set_data` and `get_timepoint` methods were defined using dictionaries, unlike in the models used in the main text.
 
