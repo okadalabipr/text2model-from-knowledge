@@ -1,6 +1,6 @@
 # text2model-from-knowledge
 
-This repository contains code to reproduce the results in the paper *Extending BioMASS to construct mathematical models from external knowledge* (Arakane *et al*., 2024).
+This repository contains code to reproduce the results in the paper [*Extending BioMASS to construct mathematical models from external knowledge* (Arakane *et al*., 2024)](https://doi.org/10.1093/bioadv/vbae042).
 
 ## Requirements
 
