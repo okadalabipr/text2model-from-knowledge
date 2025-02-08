@@ -1,8 +1,9 @@
 import os
 import re
+from time import sleep
 import urllib.request
 import xml.etree.ElementTree as ET
-from typing import List, Literal, Optional
+from typing import List, Literal, Optional, Tuple
 
 import famplex
 import networkx as nx
@@ -48,74 +49,11 @@ class KEGGpathway:
             raise FileNotFoundError("Given KGML file was not found.")
 
     def _parse_kgml(self, root) -> None:
+        self.kegg_entries = {}
         self.pathwayID = root.attrib["name"]
         self.title = root.attrib["title"]
         # parse nodes
-        self.entries = {}
-        for entry in root.findall("./entry"):
-            idx = entry.attrib["id"]
-            KEGGID = entry.attrib["name"].split(" ")
-            entry_type = entry.attrib["type"]
-            graphics = entry.find("./graphics")
-            x = int(graphics.attrib["x"])
-            # y = int(graphics.attrib["y"])
-            components = []
-            if entry_type == "gene":
-                link = "https://rest.kegg.jp/get/" + "+".join(KEGGID)
-                with urllib.request.urlopen(link) as f:
-                    res = f.read().decode()
-                for line in res.splitlines():
-                    if line.startswith("SYMBOL"):
-                        # taking only the first "symbol"
-                        symbol = re.sub(r"SYMBOL\s+", "", line).split(", ")[0]
-                        components.append(symbol)
-                    elif line.startswith("NAME"):
-                        name = re.sub(r"NAME\s+", "", line).strip(";")
-                node_name = "_".join(components)
-            elif entry_type == "compound":
-                link = "https://rest.kegg.jp/get/" + "+".join(KEGGID)
-                with urllib.request.urlopen(link) as f:
-                    res = f.read().decode()
-                for line in res.splitlines():
-                    if line.startswith("NAME"):
-                        name = re.sub(r"NAME\s+", "", line).strip(";")
-                        components.append(name)
-                node_name = "_".join(components)
-            elif entry_type == "group":
-                components = [
-                    component.attrib["id"] for component in entry.findall("./component")
-                ]
-                node_name = "_".join(
-                    [self.entries[component][0] for component in components]
-                )
-                link = "https://rest.kegg.jp/get/" + "+".join(
-                    [
-                        comp_id
-                        for component in components
-                        for comp_id in self.entries[component][1]["KEGGID"]
-                    ]
-                )
-                name = "+".join(
-                    [self.entries[component][1]["name"] for component in components]
-                )
-                # adding "_group" key to indicate entries that belong to a group
-                # using "_group" since "group" is already used by pyvis (vis.Network)
-                for component in components:
-                    self.entries[component][1]["_group"] = idx
-            else:
-                node_name = graphics.attrib["name"]
-                name = node_name
-                link = "https://rest.kegg.jp/get/" + "+".join(KEGGID)
-            entry_attrib = {
-                "entry_ID": idx,
-                "KEGGID": KEGGID,
-                "name": name,
-                "type": entry_type,
-                "components": components,
-                "level": x / 150,  # magic number; for visualization purposes
-                "ref": link,
-            }
-            self.entries[idx] = (node_name, entry_attrib)
+        self.entries = self._parse_nodes(root)
 
         self._ground_entries()
 
@@ -123,26 +61,102 @@ class KEGGpathway:
         self.graph.add_nodes_from([value for value in self.entries.values()])
 
         # parse edges
-        self.relations = []
-        self.edges = []
+        self.relations, self.edges = self._parse_edges(root)
+
+        self.graph.add_edges_from(self.edges)
+
+    def _parse_nodes(self, root) -> dict:
+        entries = {}
+        for entry in root.findall("./entry"):
+            idx = entry.attrib["id"]
+            kegg_IDs = entry.attrib["name"].split(" ")
+            link = "https://rest.kegg.jp/get/" + "+".join(kegg_IDs)
+            entry_type = entry.attrib["type"]
+            graphics = entry.find("./graphics")
+            x = int(graphics.attrib["x"])
+            y = int(graphics.attrib["y"])
+            if entry_type == "gene":
+                components = kegg_IDs
+                comp_dict = self._get_component_dicts(kegg_IDs)
+                name = "_".join([comp["name"] for comp in comp_dict])
+                node_name = "_".join(
+                    [
+                        comp["symbols"][0]
+                        for comp in comp_dict
+                        if "symbols" in comp and comp["symbols"]
+                    ]  # discard entries wihout symbols from node name
+                )
+            elif entry_type == "compound":
+                components = kegg_IDs
+                comp_dict = self._get_component_dicts(kegg_IDs)
+                name = "_".join([comp["name"] for comp in comp_dict])
+                node_name = name
+            elif entry_type == "group":
+                components = [
+                    component.attrib["id"] for component in entry.findall("./component")
+                ]
+                node_name = "_".join(
+                    [entries[component][0] for component in components]
+                )
+                link = "https://rest.kegg.jp/get/" + "+".join(
+                    [
+                        comp_id
+                        for component in components
+                        for comp_id in entries[component][1]["kegg_IDs"]
+                    ]
+                )
+                name = "+".join(
+                    [entries[component][1]["name"] for component in components]
+                )
+                # adding "_group" key to indicate entries that belong to a group
+                # using "_group" since "group" is already used by pyvis (vis.Network)
+                for component in components:
+                    entries[component][1]["_group"] = idx
+            else:
+                node_name = graphics.attrib["name"]
+                name = node_name
+                components = []
+            entry_attrib = {
+                "entry_ID": idx,
+                "kegg_IDs": kegg_IDs,
+                "name": name,
+                "type": entry_type,
+                "components": components,
+                "level": x / 150,  # magic number; for visualization purposes
+                "x": x,
+                "y": y,
+                "ref": link,
+            }
+            entries[idx] = (node_name, entry_attrib)
+
+        return entries
+
+    def _parse_edges(self, root) -> Tuple[list, list]:
+        relations = []
+        edges = []
         for relation in root.findall("./relation"):
             source_id = relation.attrib["entry1"]
             target_id = relation.attrib["entry2"]
             source = self.entries[source_id][0]
             target = self.entries[target_id][0]
             rel = relation.attrib["type"]
-            subtypes = [
-                (subtype.attrib["name"], subtype.attrib["value"])
-                for subtype in relation.findall("./subtype")
-            ]
             relation_dict = {
                 "relation": rel,
+                "_source": source,
+                "_target": target,
                 "effect": 1,
                 "indirect": False,
                 "type": "",
             }
 
-            for name, value in subtypes:
+            subtypes = []
+            for subtype in relation.findall("./subtype"):
+                name = subtype.attrib["name"]
+                value = subtype.attrib["value"]
+                subtype_dict = {
+                    "name": name,
+                    "value": value,
+                }
                 if (name == "compound") or (name == "hidden compound"):
                     relation_dict["effect"] = 1
                     relation_dict["type"] = name
@@ -170,9 +184,81 @@ class KEGGpathway:
                 elif (name == "dissociation") or (name == "missing interaction"):
                     relation_dict["effect"] = 1
                     relation_dict["type"] = name
-                self.relations.append((source_id, target_id, relation_dict))
-                self.edges.append((source, target, relation_dict))
-        self.graph.add_edges_from(self.edges)
+                subtypes.append(subtype_dict)
+
+            relation_dict["subtypes"] = subtypes
+            relations.append((source_id, target_id, relation_dict))
+            edges.append((source, target, relation_dict))
+        return relations, edges
+
+    def _get_component_dicts(self, kegg_IDs: List[str]) -> List[dict]:
+        to_process = []
+        for kegg_ID in kegg_IDs:
+            kegg_ID_split = kegg_ID.rsplit(":")[1]
+            if kegg_ID_split not in self.kegg_entries:
+                to_process.append(kegg_ID)
+        if to_process:
+            new_entries = self._kegg_rest_get(to_process)
+            for entry in new_entries:
+                self.kegg_entries[entry["KEGGID"]] = entry
+        return [self.kegg_entries[kegg_ID.rsplit(":")[1]] for kegg_ID in kegg_IDs]
+
+    def _kegg_rest_get(
+        self,
+        kegg_IDs: List[str],
+        batch_size: int = 10,
+        retries: int = 3,
+        delay: int = 3,
+    ) -> List[dict]:
+        output = []
+        for i in range(0, len(kegg_IDs), batch_size):
+            id_list = kegg_IDs[i : i + batch_size]
+            url = "https://rest.kegg.jp/get/" + "+".join(id_list)
+            for _ in range(retries):
+                try:
+                    response = urllib.request.urlopen(url)
+                    break
+                except urllib.error.URLERROR as e:
+                    sleep(delay)
+            else:
+                raise e
+            res = response.read().decode()
+
+            lines = iter(res.splitlines())
+            for line in lines:
+                line = line.strip("\n")
+                if line.startswith("ENTRY"):
+                    entry_id = re.search(r"ENTRY\s+(\w+)\s", line).group(1)
+                    entry_dict = {"KEGGID": entry_id}
+
+                elif line.startswith("SYMBOL"):
+                    symbol = re.sub(r"SYMBOL\s+", "", line).split(", ")
+                    entry_dict["symbols"] = symbol
+
+                elif line.startswith("NAME"):
+                    name = re.search(r"NAME\s+(.+)", line).group(1).strip(";")
+                    entry_dict["name"] = name
+
+                elif line.startswith("DBLINKS"):
+                    db_links = {}
+                    db_link = re.search(r"DBLINKS\s+(.+):\s(\w+)", line)
+                    db_name = db_link.group(1)
+                    db_id = db_link.group(2)
+                    db_links[db_name] = db_id
+
+                    line = next(lines).strip("\n")
+                    while re.match(r"\s+", line):
+                        db_link = re.search(r"\s+(.+):\s+(\w+)", line)
+                        db_name = db_link.group(1)
+                        db_id = db_link.group(2)
+                        db_links[db_name] = db_id
+                        line = next(lines).strip("\n")
+                    entry_dict["db_links"] = db_links
+
+                if line.startswith("///"):
+                    output.append(entry_dict)
+
+        return output
 
     def visualize(
         self,
